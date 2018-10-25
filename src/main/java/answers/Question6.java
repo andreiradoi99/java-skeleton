@@ -1,6 +1,7 @@
 package answers;
 
 
+
 public class Question6 {
 
 	public static int shortestServerRoute(int numServers, int targetServer, int[][] times) {
@@ -11,8 +12,7 @@ public class Question6 {
             int dijk_node=0,minim=-1;
             for(int j=0;j<n;j++)
             {
-                if(s==j) continue;
-                if(times[s][j]==-1) continue;
+                if(s!=j&&times[s][j]!=-1) {
                 if(minim==-1)
                 {
                     minim=times[s][j];
@@ -22,15 +22,14 @@ public class Question6 {
                 {
                     minim=times[s][j];
                     dijk_node=j;
-                }
+                }}
             }
             ans[dijk_node]=minim;
-            System.out.println(dijk_node+" "+ minim);
+            if(dijk_node==targetServer) break;
             times[s][dijk_node]=-1;
             for(int j=0;j<n;j++)
             {
-                if(s==j) continue;
-                if(times[s][j]==-1) continue;
+                if(s!=j&&times[s][j]!=-1)
                 if(times[s][j]>minim+times[dijk_node][j]) times[s][j]=minim+times[dijk_node][j];
             }
         }
