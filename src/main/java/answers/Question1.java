@@ -1,27 +1,67 @@
 package answers;
 
-
 public class Question1 {
-
 	public static int bestMergedPortfolio(int[] portfolios) {
-		int maxim=0;
+        int []fiu0;
+        int []fiu1;
+	fiu0=new int [1300];
+	fiu1= new int[1300];
+	int firstempty=1;
+	for(int i=0;i<1200;i++)
+	{
+	    fiu1[i]=0;
+	    fiu0[i]=0;
+	}
+	int maxim=0;
         int n=portfolios.length;
         for(int i=0;i<n;i++)
         {
-            for(int j=i+1;j<n;j++)
+            int val=portfolios[i];
+            int nod=0,ans=0;
+            if(i>0)
             {
-                int ans=0,t1=portfolios[i],t2=portfolios[j],p2=1;
-                while((t1!=0)||(t2!=0))
+                for(int j=15;j>=0;--j)
                 {
-                    if((t1%2+t2%2)==1) ans+=p2;
-                    p2*=2;
-                    t1/=2;
-                    t2/=2;
+                    if(val>=(1<<j))
+                    {
+                        val-=(1<<j);
+                        if(fiu0[nod]!=0)
+                        {
+                            ans+=(1<<j);
+                            nod=fiu0[nod];
+                        }
+                        else nod=fiu1[nod];
+                    }
+                    else
+                    {
+                        if(fiu1[nod]!=0)
+                        {
+                            ans+=(1<<j);
+                            nod=fiu1[nod];
+                        }
+                        else nod=fiu0[nod];
+                    }
+            //        System.out.println(ans);
                 }
                 if(maxim<ans) maxim=ans;
             }
+            nod=0; val=portfolios[i];
+            for(int j=15;j>=0;--j)
+            {
+                if(val>=(1<<j))
+                {
+                    val-=(1<<j);
+                    if(fiu1[nod]==0) fiu1[nod]=++firstempty;
+                    nod=fiu1[nod];
+                }
+                else
+                {
+                    if(fiu0[nod]==0) fiu0[nod]=++firstempty;
+                    nod=fiu0[nod];
+                }
+            }
         }
-		return maxim;
+	return maxim;
 	}
 
 }
